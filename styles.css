@@ -1,0 +1,637 @@
+:root {
+  --paper: #fff8ea;
+  --paper-deep: #f2e4c7;
+  --ink: #17202a;
+  --muted: #5f6872;
+  --line: #d7c6a6;
+  --momiji: #a93a2d;
+  --rail: #2f6f9f;
+  --cedar: #4f7356;
+  --gold: #b9832f;
+  --plum: #704761;
+  --white: #fffdf7;
+  --shadow: 0 18px 48px rgba(34, 29, 19, 0.14);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color: var(--ink);
+  background: var(--paper);
+  font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  font-size: 20px;
+  line-height: 1.65;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background:
+    linear-gradient(90deg, rgba(47, 111, 159, 0.08) 0 1px, transparent 1px 100%),
+    linear-gradient(180deg, rgba(169, 58, 45, 0.08), transparent 420px),
+    var(--paper);
+  background-size: 36px 36px, auto, auto;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 4px solid rgba(47, 111, 159, 0.35);
+  outline-offset: 3px;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem clamp(1rem, 4vw, 3rem);
+  border-bottom: 1px solid rgba(23, 32, 42, 0.12);
+  background: rgba(255, 248, 234, 0.94);
+  backdrop-filter: blur(14px);
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: clamp(1.45rem, 3.2vw, 2.35rem);
+  line-height: 1.12;
+}
+
+.eyebrow,
+.plan-label,
+.kicker {
+  margin: 0;
+  color: var(--momiji);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.top-actions,
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.solid-button,
+.ghost-button,
+.choice-button,
+.pick-button {
+  min-height: 3rem;
+  border-radius: 8px;
+  border: 2px solid var(--ink);
+  padding: 0.55rem 0.9rem;
+  font-weight: 800;
+  box-shadow: 0 4px 0 var(--ink);
+  transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+}
+
+.solid-button,
+.choice-button {
+  color: var(--white);
+  background: var(--ink);
+}
+
+.ghost-button {
+  color: var(--ink);
+  background: var(--white);
+}
+
+.solid-button:hover,
+.ghost-button:hover,
+.choice-button:hover,
+.pick-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 var(--ink);
+}
+
+main {
+  display: grid;
+  gap: clamp(1.6rem, 4vw, 3rem);
+  padding: clamp(1rem, 4vw, 3rem);
+}
+
+.overview {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(18rem, 1.1fr);
+  gap: clamp(1rem, 3vw, 2.5rem);
+  align-items: stretch;
+  min-height: 420px;
+}
+
+.overview-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 36rem;
+}
+
+.overview-copy h2 {
+  margin: 0.2rem 0 0.9rem;
+  max-width: 10ch;
+  font-size: clamp(2.25rem, 7vw, 5.7rem);
+  line-height: 1.02;
+}
+
+.overview-copy p:last-child {
+  margin: 0;
+  color: #2d3743;
+  font-size: clamp(1.05rem, 2vw, 1.28rem);
+}
+
+.route-visual {
+  position: relative;
+  overflow: hidden;
+  min-height: 420px;
+  border: 3px solid var(--ink);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 78% 18%, rgba(185, 131, 47, 0.22), transparent 22%),
+    linear-gradient(135deg, rgba(47, 111, 159, 0.14), rgba(79, 115, 86, 0.08)),
+    var(--white);
+  box-shadow: var(--shadow);
+}
+
+.rail-line {
+  position: absolute;
+  inset: 2rem 1.5rem 5.5rem;
+}
+
+.rail-line::before {
+  position: absolute;
+  top: 50%;
+  left: 4%;
+  width: 92%;
+  height: 18px;
+  content: "";
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--rail), var(--cedar), var(--gold), var(--momiji));
+  transform: rotate(14deg);
+  transform-origin: center;
+}
+
+.station {
+  position: absolute;
+  display: grid;
+  min-width: 5.8rem;
+  min-height: 5.8rem;
+  place-items: center;
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+  color: var(--ink);
+  background: var(--white);
+  font-weight: 900;
+  text-align: center;
+  box-shadow: 0 8px 0 rgba(23, 32, 42, 0.18);
+}
+
+.north {
+  top: 8%;
+  left: 5%;
+}
+
+.tohoku {
+  top: 22%;
+  left: 20%;
+}
+
+.tokyo {
+  top: 38%;
+  left: 35%;
+}
+
+.hokuriku {
+  top: 22%;
+  left: 50%;
+}
+
+.kansai {
+  top: 48%;
+  left: 61%;
+}
+
+.west {
+  top: 34%;
+  left: 74%;
+}
+
+.kyushu {
+  top: 58%;
+  left: 83%;
+}
+
+.season-note {
+  position: absolute;
+  right: 1.2rem;
+  bottom: 1.2rem;
+  left: 1.2rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.7rem;
+  align-items: center;
+  border-top: 2px solid var(--line);
+  padding-top: 1rem;
+  color: #2f3b46;
+}
+
+.season-note strong {
+  color: var(--momiji);
+  white-space: nowrap;
+}
+
+.quick-pick,
+.discussion,
+.summary {
+  border-top: 3px solid var(--ink);
+  padding-top: clamp(1rem, 3vw, 2rem);
+}
+
+.quick-pick h2,
+.discussion h2,
+.summary h2 {
+  margin: 0 0 1rem;
+  font-size: clamp(1.7rem, 4vw, 2.7rem);
+  line-height: 1.12;
+}
+
+.pick-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.pick-button {
+  display: grid;
+  gap: 0.2rem;
+  min-height: 7rem;
+  align-content: center;
+  color: var(--ink);
+  background: var(--white);
+  text-align: left;
+}
+
+.pick-button span {
+  color: var(--rail);
+  font-size: 0.85rem;
+}
+
+.pick-button.recommended {
+  color: var(--white);
+  background: var(--momiji);
+}
+
+.pick-button.recommended span {
+  color: #ffe8b8;
+}
+
+.pick-button.is-selected,
+.choice-button.is-selected {
+  background: var(--cedar);
+  color: var(--white);
+}
+
+.plans {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.plan-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  min-width: 0;
+  border: 3px solid var(--ink);
+  border-radius: 8px;
+  padding: clamp(1rem, 2.5vw, 1.45rem);
+  background: var(--white);
+  box-shadow: var(--shadow);
+}
+
+.plan-journey {
+  border-top: 12px solid var(--rail);
+}
+
+.plan-comfort {
+  border-top: 12px solid var(--momiji);
+}
+
+.plan-slow {
+  border-top: 12px solid var(--cedar);
+}
+
+.plan-head h2 {
+  margin: 0.2rem 0 0.35rem;
+  font-size: clamp(1.55rem, 3vw, 2.3rem);
+  line-height: 1.12;
+}
+
+.plan-head p:last-child,
+.recommend-note {
+  margin: 0;
+  color: var(--muted);
+}
+
+.recommend-note {
+  border-left: 8px solid var(--momiji);
+  padding: 0.65rem 0.8rem;
+  color: var(--ink);
+  background: #fff0d8;
+  font-weight: 800;
+}
+
+.score-list {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.score-list div {
+  display: grid;
+  grid-template-columns: 4.5rem 1fr;
+  gap: 0.7rem;
+  border-top: 1px solid var(--line);
+  padding-top: 0.75rem;
+}
+
+.score-list dt {
+  color: var(--plum);
+  font-weight: 900;
+}
+
+.score-list dd {
+  margin: 0;
+}
+
+.timeline {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.timeline li {
+  display: grid;
+  gap: 0.2rem;
+  border-left: 6px solid var(--line);
+  padding-left: 0.75rem;
+}
+
+.timeline span {
+  color: var(--rail);
+  font-weight: 900;
+}
+
+.choice-button {
+  width: 100%;
+  margin-top: auto;
+}
+
+.discussion {
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.9fr) minmax(18rem, 1.1fr);
+  gap: clamp(1rem, 4vw, 2.4rem);
+}
+
+.discussion-form,
+.family-notes {
+  display: grid;
+  gap: 1rem;
+}
+
+.discussion-form label,
+.discussion-form fieldset {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+}
+
+.discussion-form span,
+.discussion-form legend {
+  color: var(--plum);
+  font-weight: 900;
+}
+
+.discussion-form input[type="text"],
+.discussion-form select,
+.discussion-form textarea,
+.summary textarea {
+  width: 100%;
+  border: 3px solid var(--ink);
+  border-radius: 8px;
+  padding: 0.7rem;
+  color: var(--ink);
+  background: var(--white);
+}
+
+.discussion-form textarea,
+.summary textarea {
+  resize: vertical;
+}
+
+.discussion-form fieldset {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border: 3px solid var(--ink);
+  border-radius: 8px;
+  padding: 1rem;
+  background: rgba(255, 253, 247, 0.76);
+}
+
+.discussion-form legend {
+  padding: 0 0.4rem;
+}
+
+.discussion-form fieldset label {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.8rem;
+}
+
+.discussion-form input[type="checkbox"] {
+  width: 1.35rem;
+  height: 1.35rem;
+  accent-color: var(--momiji);
+}
+
+.family-notes {
+  align-content: start;
+}
+
+.note-card {
+  border: 3px solid var(--ink);
+  border-radius: 8px;
+  padding: 0.95rem;
+  background: var(--white);
+}
+
+.note-card strong {
+  display: block;
+  font-size: 1.25rem;
+}
+
+.note-card p {
+  margin: 0.35rem 0 0;
+}
+
+.note-card small {
+  display: block;
+  color: var(--muted);
+}
+
+.empty-note {
+  margin: 0;
+  border: 3px dashed var(--line);
+  border-radius: 8px;
+  padding: 1rem;
+  color: var(--muted);
+  background: rgba(255, 253, 247, 0.62);
+}
+
+.summary textarea {
+  min-height: 12rem;
+}
+
+footer {
+  padding: 1.2rem clamp(1rem, 4vw, 3rem) 2rem;
+  color: var(--white);
+  background: var(--ink);
+}
+
+footer p {
+  margin: 0;
+  font-weight: 800;
+}
+
+@media (max-width: 1100px) {
+  .overview,
+  .plans,
+  .discussion {
+    grid-template-columns: 1fr;
+  }
+
+  .overview-copy h2 {
+    max-width: 14ch;
+  }
+}
+
+@media (max-width: 760px) {
+  html {
+    font-size: 18px;
+  }
+
+  .topbar {
+    position: static;
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .top-actions,
+  .form-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .overview {
+    min-height: auto;
+  }
+
+  .route-visual {
+    min-height: 560px;
+  }
+
+  .rail-line::before {
+    top: 8%;
+    left: 50%;
+    width: 18px;
+    height: 84%;
+    transform: none;
+  }
+
+  .station {
+    min-width: 5.4rem;
+    min-height: 5.4rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .north {
+    top: 2%;
+  }
+
+  .tohoku {
+    top: 15%;
+  }
+
+  .tokyo {
+    top: 28%;
+  }
+
+  .hokuriku {
+    top: 41%;
+  }
+
+  .kansai {
+    top: 54%;
+  }
+
+  .west {
+    top: 67%;
+  }
+
+  .kyushu {
+    top: 80%;
+  }
+
+  .season-note {
+    grid-template-columns: 1fr;
+  }
+
+  .pick-grid,
+  .discussion-form fieldset {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  .top-actions,
+  .discussion,
+  .summary,
+  .choice-button {
+    display: none;
+  }
+
+  body {
+    background: #ffffff;
+  }
+
+  .topbar {
+    position: static;
+  }
+
+  .plan-card,
+  .route-visual {
+    break-inside: avoid;
+    box-shadow: none;
+  }
+}
