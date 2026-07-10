@@ -1,12 +1,18 @@
-const stateKey = "japan-family-trip-discussion";
-
-const defaultState = {
-  selectedPlan: "方案 2：本州＋九州舒適版",
-  notes: []
+const trip = window.JAPAN_TRIP;
+const stateKey = "japan-family-trip-discussion-v2";
+const defaultState = { notes: [] };
+const kindLabels = {
+  move: "移動日",
+  foliage: "賞楓日",
+  rest: "慢慢走",
+  visit: "一般行程"
 };
 
-const planButtons = Array.from(document.querySelectorAll("[data-pick]"));
+const cityNav = document.querySelector("[data-city-nav]");
+const itineraryHost = document.querySelector("[data-itinerary]");
+const filterButtons = Array.from(document.querySelectorAll("[data-filter]"));
 const form = document.querySelector("[data-discussion-form]");
+const daySelect = document.querySelector("[data-day-select]");
 const notesHost = document.querySelector("[data-family-notes]");
 const summaryBox = document.querySelector("[data-summary]");
 const copyButton = document.querySelector("[data-copy-summary]");
@@ -16,7 +22,8 @@ const printButton = document.querySelector("[data-print]");
 function loadState() {
   try {
     const raw = localStorage.getItem(stateKey);
-    return raw ? { ...defaultState, ...JSON.parse(raw) } : { ...defaultState };
+    const stored = raw ? JSON.parse(raw) : defaultState;
+    return { notes: Array.isArray(stored.notes) ? stored.notes : [] };
   } catch {
     return { ...defaultState };
   }
@@ -27,28 +34,143 @@ function saveState(nextState) {
 }
 
 let appState = loadState();
+let activeFilter = "all";
 
-function selectedPriorities() {
-  return Array.from(form.querySelectorAll('input[name="priority"]:checked')).map((item) => item.value);
+function createCityNav() {
+  trip.cities.forEach((city, index) => {
+    const link = document.createElement("a");
+    link.href = `#${city.id}`;
+    link.className = `city-link ${city.accent}`;
+
+    const number = document.createElement("span");
+    number.textContent = String(index + 1).padStart(2, "0");
+
+    const label = document.createElement("strong");
+    label.textContent = city.name;
+
+    const nights = document.createElement("small");
+    nights.textContent = `${city.nights} 晚`;
+
+    link.append(number, label, nights);
+    cityNav.append(link);
+  });
+}
+
+function createDayRow(day) {
+  const row = document.createElement("article");
+  row.className = "day-row";
+  row.dataset.kind = day.kind;
+
+  const date = document.createElement("div");
+  date.className = "day-date";
+
+  const dateText = document.createElement("strong");
+  dateText.textContent = day.date;
+
+  const weekday = document.createElement("span");
+  weekday.textContent = `星期${day.weekday}`;
+  date.append(dateText, weekday);
+
+  const copy = document.createElement("div");
+  copy.className = "day-copy";
+
+  const title = document.createElement("h3");
+  title.textContent = day.title;
+
+  const note = document.createElement("p");
+  note.textContent = day.note;
+  copy.append(title, note);
+
+  const badges = document.createElement("div");
+  badges.className = "day-badges";
+
+  const kind = document.createElement("span");
+  kind.className = `kind-badge ${day.kind}`;
+  kind.textContent = kindLabels[day.kind];
+
+  const effort = document.createElement("span");
+  effort.className = "effort-badge";
+  effort.textContent = `體力 ${day.effort}`;
+  badges.append(kind, effort);
+
+  row.append(date, copy, badges);
+  return row;
+}
+
+function createCitySection(city, filter) {
+  const cityDays = trip.days.filter(
+    (day) => day.city === city.id && (filter === "all" || day.kind === filter)
+  );
+
+  if (cityDays.length === 0) {
+    return null;
+  }
+
+  const section = document.createElement("section");
+  section.id = city.id;
+  section.className = `city-section ${city.accent}`;
+
+  const heading = document.createElement("header");
+  heading.className = "city-heading";
+
+  const label = document.createElement("p");
+  label.className = "city-dates";
+  label.textContent = city.dates;
+
+  const title = document.createElement("h2");
+  title.textContent = city.name;
+
+  const nights = document.createElement("p");
+  nights.className = "city-nights";
+  nights.textContent = `${city.nights} 晚定點慢遊`;
+  heading.append(label, title, nights);
+
+  const days = document.createElement("div");
+  days.className = "city-days";
+  days.append(...cityDays.map(createDayRow));
+
+  section.append(heading, days);
+  return section;
+}
+
+function renderItinerary() {
+  const sections = trip.cities
+    .map((city) => createCitySection(city, activeFilter))
+    .filter(Boolean);
+  itineraryHost.replaceChildren(...sections);
+}
+
+function updateFilters() {
+  filterButtons.forEach((button) => {
+    const isActive = button.dataset.filter === activeFilter;
+    button.setAttribute("aria-pressed", String(isActive));
+  });
+}
+
+function populateDaySelect() {
+  trip.days.forEach((day) => {
+    const option = document.createElement("option");
+    option.value = `${day.date} ${day.title}`;
+    option.textContent = `${day.date}｜${day.title}`;
+    daySelect.append(option);
+  });
 }
 
 function buildSummary() {
   const lines = [
-    "2026 日本家庭旅行討論摘要",
-    "日期：2026/10/30 - 2026/12/02",
-    `目前主選：${appState.selectedPlan}`,
+    trip.tripMeta.title,
+    `日期：${trip.tripMeta.start} - ${trip.tripMeta.end}`,
+    `路線：${trip.cities.map((city) => `${city.name} ${city.nights}晚`).join(" → ")}`,
     "",
-    "建議排序：方案 2 最平衡，方案 3 最孝親，方案 1 最壯遊。",
-    ""
+    "家庭留言："
   ];
 
   if (appState.notes.length === 0) {
-    lines.push("家人留言：還沒有留言。");
+    lines.push("還沒有留言。");
   } else {
-    lines.push("家人留言：");
     appState.notes.forEach((note, index) => {
-      lines.push(`${index + 1}. ${note.name}：${note.favorite}`);
-      lines.push(`   在意：${note.priorities.length ? note.priorities.join("、") : "未填"}`);
+      lines.push(`${index + 1}. ${note.name}｜${note.day}`);
+      lines.push(`   感覺：${note.feeling}`);
       if (note.message) {
         lines.push(`   補充：${note.message}`);
       }
@@ -59,12 +181,12 @@ function buildSummary() {
 }
 
 function renderNotes() {
-  notesHost.innerHTML = "";
+  notesHost.replaceChildren();
 
   if (appState.notes.length === 0) {
     const empty = document.createElement("p");
     empty.className = "empty-note";
-    empty.textContent = "還沒有留言。先選一個方案，晚餐時就有東西可以聊。";
+    empty.textContent = "還沒有留言。看到喜歡或太累的日子，就記一筆。";
     notesHost.append(empty);
     return;
   }
@@ -73,64 +195,59 @@ function renderNotes() {
     const card = document.createElement("article");
     card.className = "note-card";
 
+    const header = document.createElement("div");
+    header.className = "note-header";
+
     const name = document.createElement("strong");
     name.textContent = note.name;
 
-    const favorite = document.createElement("p");
-    favorite.textContent = `想選：${note.favorite}`;
+    const feeling = document.createElement("span");
+    feeling.textContent = note.feeling;
+    header.append(name, feeling);
 
-    const priorities = document.createElement("small");
-    priorities.textContent = `在意：${note.priorities.length ? note.priorities.join("、") : "未填"}`;
+    const day = document.createElement("p");
+    day.className = "note-day";
+    day.textContent = note.day;
 
     const message = document.createElement("p");
     message.textContent = note.message || "沒有補充。";
 
-    card.append(name, favorite, priorities, message);
+    card.append(header, day, message);
     notesHost.append(card);
   });
-}
-
-function renderSelection() {
-  planButtons.forEach((button) => {
-    button.classList.toggle("is-selected", button.dataset.pick === appState.selectedPlan);
-  });
-  form.elements.favorite.value = appState.selectedPlan;
 }
 
 function renderSummary() {
   summaryBox.value = buildSummary();
 }
 
-function render() {
-  renderSelection();
+function renderDiscussion() {
   renderNotes();
   renderSummary();
 }
 
-planButtons.forEach((button) => {
+filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    appState.selectedPlan = button.dataset.pick;
-    saveState(appState);
-    render();
+    activeFilter = button.dataset.filter;
+    updateFilters();
+    renderItinerary();
   });
 });
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
-
   const formData = new FormData(form);
   const note = {
     name: String(formData.get("name") || "家人").trim() || "家人",
-    favorite: String(formData.get("favorite") || appState.selectedPlan),
-    priorities: selectedPriorities(),
+    day: String(formData.get("day") || "未指定日期"),
+    feeling: String(formData.get("feeling") || "很喜歡"),
     message: String(formData.get("note") || "").trim()
   };
 
-  appState.selectedPlan = note.favorite;
-  appState.notes = [note, ...appState.notes].slice(0, 8);
+  appState.notes = [note, ...appState.notes].slice(0, 12);
   saveState(appState);
   form.reset();
-  render();
+  renderDiscussion();
 });
 
 copyButton.addEventListener("click", async () => {
@@ -141,7 +258,7 @@ copyButton.addEventListener("click", async () => {
     await navigator.clipboard.writeText(summaryBox.value);
     copyButton.textContent = "已複製";
     window.setTimeout(() => {
-      copyButton.textContent = "複製討論摘要";
+      copyButton.textContent = "複製摘要";
     }, 1600);
   } catch {
     document.execCommand("copy");
@@ -149,14 +266,17 @@ copyButton.addEventListener("click", async () => {
 });
 
 clearButton.addEventListener("click", () => {
-  appState = { ...defaultState, notes: [] };
+  appState = { notes: [] };
   saveState(appState);
   form.reset();
-  render();
+  renderDiscussion();
 });
 
 printButton.addEventListener("click", () => {
   window.print();
 });
 
-render();
+createCityNav();
+populateDaySelect();
+renderItinerary();
+renderDiscussion();

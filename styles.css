@@ -1,16 +1,17 @@
 :root {
-  --paper: #fff8ea;
-  --paper-deep: #f2e4c7;
-  --ink: #17202a;
-  --muted: #5f6872;
-  --line: #d7c6a6;
-  --momiji: #a93a2d;
-  --rail: #2f6f9f;
-  --cedar: #4f7356;
-  --gold: #b9832f;
-  --plum: #704761;
-  --white: #fffdf7;
-  --shadow: 0 18px 48px rgba(34, 29, 19, 0.14);
+  --maple: #c7332b;
+  --maple-dark: #8f211c;
+  --ginkgo: #f2b544;
+  --pine: #1f5b47;
+  --rail: #287aa0;
+  --paper: #fffaf0;
+  --white: #ffffff;
+  --ink: #182026;
+  --muted: #5d625f;
+  --line: #d9d0c2;
+  --plum: #75506a;
+  --orange: #d96d2a;
+  --focus: #0b6fb6;
 }
 
 * {
@@ -18,21 +19,19 @@
 }
 
 html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 10rem;
   color: var(--ink);
   background: var(--paper);
   font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
   font-size: 20px;
-  line-height: 1.65;
+  line-height: 1.7;
 }
 
 body {
-  margin: 0;
   min-width: 320px;
-  background:
-    linear-gradient(90deg, rgba(47, 111, 159, 0.08) 0 1px, transparent 1px 100%),
-    linear-gradient(180deg, rgba(169, 58, 45, 0.08), transparent 420px),
-    var(--paper);
-  background-size: 36px 36px, auto, auto;
+  margin: 0;
+  background: var(--paper);
 }
 
 button,
@@ -42,70 +41,91 @@ textarea {
   font: inherit;
 }
 
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
 button {
   cursor: pointer;
 }
 
+a {
+  color: inherit;
+}
+
 button:focus-visible,
+a:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 4px solid rgba(47, 111, 159, 0.35);
+  outline: 4px solid var(--focus);
   outline-offset: 3px;
 }
 
 .topbar {
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 20;
   display: flex;
+  min-height: 76px;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 0.8rem clamp(1rem, 4vw, 3rem);
-  border-bottom: 1px solid rgba(23, 32, 42, 0.12);
-  background: rgba(255, 248, 234, 0.94);
-  backdrop-filter: blur(14px);
+  padding: 0.55rem max(1rem, calc((100vw - 1280px) / 2));
+  border-bottom: 1px solid rgba(24, 32, 38, 0.15);
+  background: rgba(255, 250, 240, 0.96);
+  backdrop-filter: blur(12px);
 }
 
-.topbar h1 {
-  margin: 0;
-  font-size: clamp(1.45rem, 3.2vw, 2.35rem);
-  line-height: 1.12;
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--ink);
+  font-size: 1.05rem;
+  font-weight: 900;
+  line-height: 1.2;
+  text-decoration: none;
 }
 
-.eyebrow,
-.plan-label,
-.kicker {
-  margin: 0;
-  color: var(--momiji);
-  font-size: 0.82rem;
+.brand small {
+  display: block;
+  color: var(--maple);
+  font-size: 0.68rem;
   font-weight: 800;
-  letter-spacing: 0;
+}
+
+.brand-mark {
+  display: grid;
+  width: 2.4rem;
+  height: 2.4rem;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--white);
+  background: var(--maple);
+  font-family: "Noto Serif TC", "PMingLiU", serif;
+  font-size: 1.15rem;
 }
 
 .top-actions,
 .form-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.7rem;
+  gap: 0.65rem;
 }
 
 .solid-button,
-.ghost-button,
-.choice-button,
-.pick-button {
-  min-height: 3rem;
-  border-radius: 8px;
+.ghost-button {
+  min-height: 2.7rem;
   border: 2px solid var(--ink);
-  padding: 0.55rem 0.9rem;
-  font-weight: 800;
-  box-shadow: 0 4px 0 var(--ink);
-  transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+  border-radius: 6px;
+  padding: 0.45rem 0.9rem;
+  font-weight: 900;
+  transition: transform 160ms ease, box-shadow 160ms ease;
 }
 
-.solid-button,
-.choice-button {
+.solid-button {
   color: var(--white);
   background: var(--ink);
 }
@@ -116,317 +136,499 @@ textarea:focus-visible {
 }
 
 .solid-button:hover,
-.ghost-button:hover,
-.choice-button:hover,
-.pick-button:hover {
+.ghost-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 0 var(--ink);
+  box-shadow: 0 4px 0 var(--ginkgo);
 }
 
-main {
-  display: grid;
-  gap: clamp(1.6rem, 4vw, 3rem);
-  padding: clamp(1rem, 4vw, 3rem);
-}
-
-.overview {
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(18rem, 1.1fr);
-  gap: clamp(1rem, 3vw, 2.5rem);
-  align-items: stretch;
-  min-height: 420px;
-}
-
-.overview-copy {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  max-width: 36rem;
-}
-
-.overview-copy h2 {
-  margin: 0.2rem 0 0.9rem;
-  max-width: 10ch;
-  font-size: clamp(2.25rem, 7vw, 5.7rem);
-  line-height: 1.02;
-}
-
-.overview-copy p:last-child {
-  margin: 0;
-  color: #2d3743;
-  font-size: clamp(1.05rem, 2vw, 1.28rem);
-}
-
-.route-visual {
+.trip-hero {
   position: relative;
+  display: flex;
+  min-height: min(72vh, 700px);
+  align-items: flex-end;
   overflow: hidden;
-  min-height: 420px;
-  border: 3px solid var(--ink);
-  border-radius: 8px;
-  background:
-    radial-gradient(circle at 78% 18%, rgba(185, 131, 47, 0.22), transparent 22%),
-    linear-gradient(135deg, rgba(47, 111, 159, 0.14), rgba(79, 115, 86, 0.08)),
-    var(--white);
-  box-shadow: var(--shadow);
+  color: var(--white);
+  background: var(--maple-dark);
 }
 
-.rail-line {
+.hero-image,
+.hero-shade {
   position: absolute;
-  inset: 2rem 1.5rem 5.5rem;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
-.rail-line::before {
-  position: absolute;
-  top: 50%;
-  left: 4%;
-  width: 92%;
-  height: 18px;
-  content: "";
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--rail), var(--cedar), var(--gold), var(--momiji));
-  transform: rotate(14deg);
-  transform-origin: center;
+.hero-image {
+  object-fit: cover;
+  object-position: center 43%;
 }
 
-.station {
-  position: absolute;
-  display: grid;
-  min-width: 5.8rem;
-  min-height: 5.8rem;
-  place-items: center;
-  border: 3px solid var(--ink);
-  border-radius: 50%;
-  color: var(--ink);
-  background: var(--white);
+.hero-shade {
+  background: rgba(20, 24, 22, 0.48);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  width: min(1280px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 4rem 0 3.2rem;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--maple);
+  font-size: 0.8rem;
   font-weight: 900;
-  text-align: center;
-  box-shadow: 0 8px 0 rgba(23, 32, 42, 0.18);
+  letter-spacing: 0;
 }
 
-.north {
-  top: 8%;
-  left: 5%;
+.eyebrow.light {
+  color: #ffe4a8;
 }
 
-.tohoku {
-  top: 22%;
-  left: 20%;
+.trip-hero h1 {
+  max-width: 9ch;
+  margin: 0.25rem 0 0.8rem;
+  font-family: "Noto Serif TC", "PMingLiU", serif;
+  font-size: 5.4rem;
+  font-weight: 900;
+  line-height: 1.02;
+  text-shadow: 0 3px 18px rgba(0, 0, 0, 0.4);
 }
 
-.tokyo {
-  top: 38%;
-  left: 35%;
+.hero-lead {
+  max-width: 33rem;
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.55;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
 }
 
-.hokuriku {
-  top: 22%;
-  left: 50%;
+.hero-facts {
+  display: flex;
+  max-width: 38rem;
+  gap: 0;
+  margin: 1.6rem 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.65);
+  padding-top: 0.85rem;
 }
 
-.kansai {
-  top: 48%;
-  left: 61%;
+.hero-facts div {
+  min-width: 8rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.5);
+  padding-right: 1rem;
+  margin-right: 1rem;
 }
 
-.west {
-  top: 34%;
-  left: 74%;
+.hero-facts div:last-child {
+  border-right: 0;
 }
 
-.kyushu {
-  top: 58%;
-  left: 83%;
+.hero-facts dt {
+  color: #ffe4a8;
+  font-size: 0.7rem;
+  font-weight: 900;
 }
 
-.season-note {
+.hero-facts dd {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.photo-credit {
   position: absolute;
-  right: 1.2rem;
-  bottom: 1.2rem;
-  left: 1.2rem;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0.7rem;
-  align-items: center;
-  border-top: 2px solid var(--line);
-  padding-top: 1rem;
-  color: #2f3b46;
+  right: 0.75rem;
+  bottom: 0.35rem;
+  z-index: 1;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.58rem;
 }
 
-.season-note strong {
-  color: var(--momiji);
+.city-nav {
+  position: sticky;
+  top: 76px;
+  z-index: 15;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  overflow-x: auto;
+  border-bottom: 4px solid var(--ink);
+  background: var(--white);
+}
+
+.city-link {
+  display: grid;
+  min-width: 8.5rem;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 0.55rem;
+  align-items: center;
+  border-right: 1px solid var(--line);
+  padding: 0.65rem 0.8rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.city-link span {
+  grid-row: 1 / 3;
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 900;
+}
+
+.city-link strong {
+  font-family: "Noto Serif TC", "PMingLiU", serif;
+  font-size: 1.05rem;
+  line-height: 1.15;
+}
+
+.city-link small {
+  color: var(--muted);
+  font-size: 0.65rem;
+  line-height: 1.2;
+}
+
+.city-link:hover {
+  color: var(--white);
+  background: var(--ink);
+}
+
+.city-link:hover span,
+.city-link:hover small {
+  color: var(--ginkgo);
+}
+
+.route-overview,
+.itinerary,
+.travel-rules,
+.discussion,
+.summary {
+  width: min(1280px, calc(100% - 2rem));
+  margin: 0 auto;
+}
+
+.route-overview {
+  display: grid;
+  grid-template-columns: minmax(16rem, 0.85fr) minmax(0, 1.15fr);
+  gap: 3rem;
+  padding: 4rem 0;
+}
+
+.section-intro h2,
+.itinerary-header h2,
+.discussion h2,
+.summary h2 {
+  margin: 0.2rem 0 0;
+  font-family: "Noto Serif TC", "PMingLiU", serif;
+  font-size: 3.1rem;
+  line-height: 1.12;
+}
+
+.section-intro.compact h2 {
+  font-size: 2.6rem;
+}
+
+.route-notes {
+  align-self: center;
+  border-top: 5px solid var(--maple);
+}
+
+.route-notes p {
+  margin: 0;
+  border-bottom: 1px solid var(--line);
+  padding: 0.85rem 0;
+}
+
+.itinerary {
+  padding: 1rem 0 4rem;
+}
+
+.itinerary-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.itinerary-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.45rem;
+}
+
+.legend-item,
+.kind-badge,
+.effort-badge {
+  display: inline-flex;
+  min-height: 1.8rem;
+  align-items: center;
+  border-radius: 4px;
+  padding: 0.12rem 0.5rem;
+  font-size: 0.68rem;
+  font-weight: 900;
   white-space: nowrap;
 }
 
-.quick-pick,
-.discussion,
-.summary {
-  border-top: 3px solid var(--ink);
-  padding-top: clamp(1rem, 3vw, 2rem);
+.move {
+  color: var(--white);
+  background: var(--rail);
 }
 
-.quick-pick h2,
-.discussion h2,
-.summary h2 {
-  margin: 0 0 1rem;
-  font-size: clamp(1.7rem, 4vw, 2.7rem);
-  line-height: 1.12;
+.foliage {
+  color: var(--white);
+  background: var(--maple);
 }
 
-.pick-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
+.rest {
+  color: var(--white);
+  background: var(--pine);
 }
 
-.pick-button {
-  display: grid;
-  gap: 0.2rem;
-  min-height: 7rem;
-  align-content: center;
+.visit {
+  color: var(--ink);
+  background: var(--ginkgo);
+}
+
+.effort-badge {
+  border: 1px solid var(--line);
   color: var(--ink);
   background: var(--white);
-  text-align: left;
 }
 
-.pick-button span {
-  color: var(--rail);
+.itinerary-tools {
+  display: inline-flex;
+  flex-wrap: wrap;
+  border: 2px solid var(--ink);
+  border-radius: 6px;
+  margin-bottom: 1.25rem;
+  background: var(--white);
+}
+
+.itinerary-tools button {
+  min-height: 2.7rem;
+  border: 0;
+  border-right: 1px solid var(--line);
+  padding: 0.4rem 0.75rem;
+  color: var(--ink);
+  background: transparent;
+  font-weight: 900;
+}
+
+.itinerary-tools button:last-child {
+  border-right: 0;
+}
+
+.itinerary-tools button[aria-pressed="true"] {
+  color: var(--white);
+  background: var(--ink);
+}
+
+.itinerary-list {
+  display: grid;
+  gap: 2rem;
+}
+
+.city-section {
+  scroll-margin-top: 10rem;
+  border-top: 12px solid var(--rail);
+  background: var(--white);
+}
+
+.city-section.pine {
+  border-color: var(--pine);
+}
+
+.city-section.gold {
+  border-color: var(--ginkgo);
+}
+
+.city-section.maple {
+  border-color: var(--maple);
+}
+
+.city-section.plum {
+  border-color: var(--plum);
+}
+
+.city-section.orange {
+  border-color: var(--orange);
+}
+
+.city-heading {
+  display: grid;
+  grid-template-columns: 8rem minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: baseline;
+  border-bottom: 3px solid var(--ink);
+  padding: 1.1rem 1.25rem;
+}
+
+.city-heading h2 {
+  margin: 0;
+  font-family: "Noto Serif TC", "PMingLiU", serif;
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.city-dates,
+.city-nights {
+  margin: 0;
+  font-weight: 900;
+}
+
+.city-dates {
+  color: var(--maple);
+  font-variant-numeric: tabular-nums;
+}
+
+.city-nights {
+  color: var(--muted);
   font-size: 0.85rem;
 }
 
-.pick-button.recommended {
-  color: var(--white);
-  background: var(--momiji);
-}
-
-.pick-button.recommended span {
-  color: #ffe8b8;
-}
-
-.pick-button.is-selected,
-.choice-button.is-selected {
-  background: var(--cedar);
-  color: var(--white);
-}
-
-.plans {
+.day-row {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-  align-items: stretch;
+  min-height: 7.2rem;
+  grid-template-columns: 7rem minmax(0, 1fr) 9rem;
+  gap: 1.25rem;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  padding: 1rem 1.25rem;
 }
 
-.plan-card {
-  display: flex;
-  flex-direction: column;
-  gap: 1.1rem;
-  min-width: 0;
-  border: 3px solid var(--ink);
-  border-radius: 8px;
-  padding: clamp(1rem, 2.5vw, 1.45rem);
-  background: var(--white);
-  box-shadow: var(--shadow);
+.day-row:last-child {
+  border-bottom: 0;
 }
 
-.plan-journey {
-  border-top: 12px solid var(--rail);
+.day-row[data-kind="move"] {
+  background: #eef7fb;
 }
 
-.plan-comfort {
-  border-top: 12px solid var(--momiji);
+.day-row[data-kind="foliage"] {
+  background: #fff5f1;
 }
 
-.plan-slow {
-  border-top: 12px solid var(--cedar);
+.day-row[data-kind="rest"] {
+  background: #f2f8f3;
 }
 
-.plan-head h2 {
-  margin: 0.2rem 0 0.35rem;
-  font-size: clamp(1.55rem, 3vw, 2.3rem);
-  line-height: 1.12;
+.day-date {
+  display: grid;
+  border-right: 2px solid var(--line);
+  font-variant-numeric: tabular-nums;
 }
 
-.plan-head p:last-child,
-.recommend-note {
-  margin: 0;
+.day-date strong {
+  font-family: "Noto Serif TC", "PMingLiU", serif;
+  font-size: 1.8rem;
+  line-height: 1.1;
+}
+
+.day-date span {
   color: var(--muted);
-}
-
-.recommend-note {
-  border-left: 8px solid var(--momiji);
-  padding: 0.65rem 0.8rem;
-  color: var(--ink);
-  background: #fff0d8;
+  font-size: 0.75rem;
   font-weight: 800;
 }
 
-.score-list {
-  display: grid;
-  gap: 0.75rem;
+.day-copy {
+  min-width: 0;
+}
+
+.day-copy h3 {
   margin: 0;
+  overflow-wrap: anywhere;
+  font-size: 1.2rem;
+  line-height: 1.35;
 }
 
-.score-list div {
+.day-copy p {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.day-badges {
   display: grid;
-  grid-template-columns: 4.5rem 1fr;
-  gap: 0.7rem;
-  border-top: 1px solid var(--line);
-  padding-top: 0.75rem;
+  justify-items: stretch;
+  gap: 0.4rem;
 }
 
-.score-list dt {
-  color: var(--plum);
-  font-weight: 900;
+.kind-badge,
+.effort-badge {
+  justify-content: center;
 }
 
-.score-list dd {
-  margin: 0;
-}
-
-.timeline {
+.travel-rules {
   display: grid;
-  gap: 0.65rem;
+  grid-template-columns: minmax(15rem, 0.7fr) minmax(0, 1.3fr);
+  gap: 3rem;
+  margin-bottom: 4rem;
+  border-top: 12px solid var(--ginkgo);
+  padding: 2.5rem 0;
+}
+
+.travel-rules ol {
+  display: grid;
+  gap: 0;
   margin: 0;
   padding: 0;
   list-style: none;
+  counter-reset: rule;
 }
 
-.timeline li {
-  display: grid;
-  gap: 0.2rem;
-  border-left: 6px solid var(--line);
-  padding-left: 0.75rem;
+.travel-rules li {
+  position: relative;
+  border-bottom: 1px solid var(--line);
+  padding: 0.9rem 0 0.9rem 3.2rem;
+  counter-increment: rule;
 }
 
-.timeline span {
-  color: var(--rail);
+.travel-rules li::before {
+  position: absolute;
+  top: 0.78rem;
+  left: 0;
+  width: 2.25rem;
+  color: var(--maple);
+  content: counter(rule, decimal-leading-zero);
+  font-size: 0.85rem;
   font-weight: 900;
-}
-
-.choice-button {
-  width: 100%;
-  margin-top: auto;
 }
 
 .discussion {
   display: grid;
-  grid-template-columns: minmax(18rem, 0.9fr) minmax(18rem, 1.1fr);
-  gap: clamp(1rem, 4vw, 2.4rem);
+  grid-template-columns: minmax(14rem, 0.58fr) minmax(0, 1.42fr);
+  gap: 2.5rem;
+  margin-bottom: 3rem;
+  border-top: 5px solid var(--pine);
+  padding-top: 2.4rem;
 }
 
-.discussion-form,
-.family-notes {
+.discussion-heading p:last-child {
+  color: var(--muted);
+}
+
+.discussion-form {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
 }
 
 .discussion-form label,
 .discussion-form fieldset {
   display: grid;
-  gap: 0.45rem;
+  gap: 0.4rem;
+  min-width: 0;
   margin: 0;
 }
 
-.discussion-form span,
+.discussion-form label > span,
 .discussion-form legend {
   color: var(--plum);
   font-weight: 900;
@@ -437,8 +639,8 @@ main {
 .discussion-form textarea,
 .summary textarea {
   width: 100%;
-  border: 3px solid var(--ink);
-  border-radius: 8px;
+  border: 2px solid var(--ink);
+  border-radius: 6px;
   padding: 0.7rem;
   color: var(--ink);
   background: var(--white);
@@ -450,100 +652,156 @@ main {
 }
 
 .discussion-form fieldset {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  border: 3px solid var(--ink);
-  border-radius: 8px;
-  padding: 1rem;
-  background: rgba(255, 253, 247, 0.76);
-}
-
-.discussion-form legend {
-  padding: 0 0.4rem;
+  grid-template-columns: 1fr;
+  border: 2px solid var(--ink);
+  border-radius: 6px;
+  padding: 0.75rem;
+  background: var(--white);
 }
 
 .discussion-form fieldset label {
   display: flex;
+  min-height: 2.2rem;
   align-items: center;
   gap: 0.45rem;
-  min-height: 2.8rem;
 }
 
-.discussion-form input[type="checkbox"] {
-  width: 1.35rem;
-  height: 1.35rem;
-  accent-color: var(--momiji);
+.discussion-form input[type="radio"] {
+  width: 1.2rem;
+  height: 1.2rem;
+  accent-color: var(--maple);
+}
+
+.wide-field {
+  grid-column: 1 / -1;
 }
 
 .family-notes {
-  align-content: start;
+  display: grid;
+  grid-column: 2;
+  gap: 0.75rem;
 }
 
 .note-card {
-  border: 3px solid var(--ink);
-  border-radius: 8px;
-  padding: 0.95rem;
+  border-left: 8px solid var(--maple);
+  padding: 0.85rem 1rem;
   background: var(--white);
 }
 
-.note-card strong {
-  display: block;
-  font-size: 1.25rem;
+.note-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.note-header strong {
+  font-size: 1.15rem;
+}
+
+.note-header span {
+  color: var(--pine);
+  font-weight: 900;
 }
 
 .note-card p {
-  margin: 0.35rem 0 0;
+  margin: 0.25rem 0 0;
 }
 
-.note-card small {
-  display: block;
-  color: var(--muted);
+.note-day {
+  color: var(--maple-dark);
+  font-weight: 900;
 }
 
 .empty-note {
   margin: 0;
-  border: 3px dashed var(--line);
-  border-radius: 8px;
+  border: 2px dashed var(--line);
   padding: 1rem;
   color: var(--muted);
-  background: rgba(255, 253, 247, 0.62);
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: minmax(14rem, 0.58fr) minmax(0, 1.42fr);
+  gap: 2.5rem;
+  margin-bottom: 4rem;
+  border-top: 5px solid var(--maple);
+  padding-top: 2rem;
 }
 
 .summary textarea {
-  min-height: 12rem;
+  min-height: 15rem;
 }
 
 footer {
-  padding: 1.2rem clamp(1rem, 4vw, 3rem) 2rem;
+  display: grid;
+  gap: 0.75rem;
+  padding: 1.5rem max(1rem, calc((100vw - 1280px) / 2)) 2rem;
   color: var(--white);
   background: var(--ink);
 }
 
 footer p {
   margin: 0;
-  font-weight: 800;
 }
 
-@media (max-width: 1100px) {
-  .overview,
-  .plans,
-  .discussion {
+.source-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  color: #ffe4a8;
+  font-size: 0.78rem;
+}
+
+@media (max-width: 900px) {
+  .trip-hero h1 {
+    font-size: 4.3rem;
+  }
+
+  .route-overview,
+  .travel-rules,
+  .discussion,
+  .summary {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
-  .overview-copy h2 {
-    max-width: 14ch;
+  .family-notes {
+    grid-column: 1;
+  }
+
+  .city-heading {
+    grid-template-columns: 7rem minmax(0, 1fr);
+  }
+
+  .city-nights {
+    grid-column: 2;
+  }
+
+  .day-row {
+    grid-template-columns: 6rem minmax(0, 1fr);
+  }
+
+  .day-badges {
+    grid-column: 2;
+    display: flex;
+    justify-content: flex-start;
   }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 620px) {
   html {
     font-size: 18px;
+    scroll-padding-top: 5rem;
   }
 
   .topbar {
     position: static;
+    min-height: auto;
     align-items: stretch;
     flex-direction: column;
+    padding: 0.7rem 0.8rem;
   }
 
   .top-actions,
@@ -552,86 +810,236 @@ footer p {
     grid-template-columns: 1fr 1fr;
   }
 
-  .overview {
-    min-height: auto;
+  .trip-hero {
+    min-height: 69vh;
   }
 
-  .route-visual {
-    min-height: 560px;
+  .hero-content {
+    width: calc(100% - 1.6rem);
+    padding: 3rem 0 2.4rem;
   }
 
-  .rail-line::before {
-    top: 8%;
-    left: 50%;
-    width: 18px;
-    height: 84%;
-    transform: none;
+  .trip-hero h1 {
+    font-size: 3.35rem;
   }
 
-  .station {
-    min-width: 5.4rem;
-    min-height: 5.4rem;
-    left: 50%;
-    transform: translateX(-50%);
+  .hero-lead {
+    font-size: 1.05rem;
   }
 
-  .north {
-    top: 2%;
+  .hero-facts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .tohoku {
-    top: 15%;
+  .hero-facts div {
+    min-width: 0;
+    margin-right: 0.5rem;
+    padding-right: 0.5rem;
   }
 
-  .tokyo {
-    top: 28%;
+  .hero-facts dd {
+    font-size: 0.82rem;
   }
 
-  .hokuriku {
-    top: 41%;
+  .city-nav {
+    top: 0;
+    grid-template-columns: repeat(6, 8.6rem);
   }
 
-  .kansai {
-    top: 54%;
+  .route-overview,
+  .itinerary,
+  .travel-rules,
+  .discussion,
+  .summary {
+    width: calc(100% - 1.6rem);
   }
 
-  .west {
-    top: 67%;
+  .route-overview {
+    padding: 2.8rem 0;
   }
 
-  .kyushu {
-    top: 80%;
+  .section-intro h2,
+  .itinerary-header h2,
+  .discussion h2,
+  .summary h2,
+  .section-intro.compact h2 {
+    font-size: 2.2rem;
   }
 
-  .season-note {
+  .itinerary-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .itinerary-legend {
+    justify-content: flex-start;
+  }
+
+  .itinerary-tools {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+  }
+
+  .itinerary-tools button {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .city-heading {
+    grid-template-columns: 1fr auto;
+    gap: 0.3rem 0.8rem;
+    padding: 1rem;
+  }
+
+  .city-heading h2 {
+    grid-row: 1 / 3;
+    grid-column: 1;
+    font-size: 2.15rem;
+  }
+
+  .city-dates,
+  .city-nights {
+    grid-column: 2;
+    text-align: right;
+  }
+
+  .day-row {
+    min-height: 0;
+    grid-template-columns: 4.7rem minmax(0, 1fr);
+    gap: 0.8rem;
+    align-items: start;
+    padding: 1rem;
+  }
+
+  .day-date strong {
+    font-size: 1.45rem;
+  }
+
+  .day-copy h3 {
+    font-size: 1.08rem;
+  }
+
+  .day-copy p {
+    font-size: 0.86rem;
+  }
+
+  .day-badges {
+    grid-column: 2;
+    flex-wrap: wrap;
+  }
+
+  .discussion-form {
     grid-template-columns: 1fr;
   }
 
-  .pick-grid,
-  .discussion-form fieldset {
-    grid-template-columns: 1fr;
+  .wide-field {
+    grid-column: 1;
+  }
+
+  .photo-credit {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
   }
 }
 
 @media print {
-  .top-actions,
-  .discussion,
-  .summary,
-  .choice-button {
-    display: none;
+  html {
+    font-size: 12pt;
+    background: #ffffff;
   }
 
   body {
     background: #ffffff;
   }
 
-  .topbar {
-    position: static;
+  .top-actions,
+  .city-nav,
+  .itinerary-tools,
+  .discussion,
+  .summary,
+  .photo-credit {
+    display: none;
   }
 
-  .plan-card,
-  .route-visual {
+  .topbar {
+    position: static;
+    min-height: auto;
+    padding: 0 0 0.5rem;
+    background: #ffffff;
+  }
+
+  .trip-hero {
+    min-height: 0;
+    color: #000000;
+    background: #ffffff;
+  }
+
+  .hero-image,
+  .hero-shade {
+    display: none;
+  }
+
+  .hero-content {
+    width: 100%;
+    padding: 1rem 0;
+  }
+
+  .trip-hero h1 {
+    color: #000000;
+    font-size: 32pt;
+    text-shadow: none;
+  }
+
+  .eyebrow.light,
+  .hero-facts dt,
+  .hero-lead {
+    color: #000000;
+    text-shadow: none;
+  }
+
+  .route-overview,
+  .itinerary,
+  .travel-rules {
+    width: 100%;
+  }
+
+  .route-overview,
+  .travel-rules {
+    padding: 1rem 0;
+  }
+
+  .city-section {
+    break-before: page;
+    break-inside: auto;
+    border-top-width: 4pt;
+  }
+
+  .city-section:first-child {
+    break-before: auto;
+  }
+
+  .day-row {
+    min-height: 0;
     break-inside: avoid;
-    box-shadow: none;
+    padding: 0.45rem;
+    background: #ffffff !important;
+  }
+
+  footer {
+    color: #000000;
+    background: #ffffff;
   }
 }
