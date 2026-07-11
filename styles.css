@@ -12,6 +12,23 @@
   --plum: #75506a;
   --orange: #d96d2a;
   --focus: #0b6fb6;
+  --active: var(--maple);
+  --active-dark: var(--maple-dark);
+}
+
+html[data-theme="rail"] {
+  --active: #176b87;
+  --active-dark: #104c61;
+}
+
+html[data-theme="maple"] {
+  --active: #c7332b;
+  --active-dark: #8f211c;
+}
+
+html[data-theme="pine"] {
+  --active: #24705a;
+  --active-dark: #174b3c;
 }
 
 * {
@@ -247,6 +264,93 @@ textarea:focus-visible {
   margin: 0;
   color: rgba(255, 255, 255, 0.76);
   font-size: 0.58rem;
+}
+
+.plan-tabs {
+  display: grid;
+  width: min(1280px, calc(100% - 2rem));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 1.5rem auto 0;
+  border: 3px solid var(--ink);
+  background: var(--white);
+}
+
+.plan-tabs button {
+  display: grid;
+  min-width: 0;
+  min-height: 7rem;
+  align-content: center;
+  gap: 0.05rem;
+  border: 0;
+  border-right: 2px solid var(--ink);
+  padding: 0.9rem 1rem;
+  color: var(--ink);
+  background: var(--white);
+  text-align: left;
+}
+
+.plan-tabs button:last-child {
+  border-right: 0;
+}
+
+.plan-tabs button span,
+.plan-tabs button small {
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.plan-tabs button span {
+  color: var(--muted);
+}
+
+.plan-tabs button strong {
+  font-family: "Noto Serif TC", "PMingLiU", serif;
+  font-size: 1.5rem;
+  line-height: 1.25;
+}
+
+.plan-tabs button small {
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.plan-tabs button[aria-selected="true"] {
+  color: var(--white);
+  background: var(--active);
+}
+
+.plan-tabs button[aria-selected="true"] span,
+.plan-tabs button[aria-selected="true"] small {
+  color: var(--white);
+}
+
+.trip-panel:focus {
+  outline: 0;
+}
+
+html[data-theme] .brand small,
+html[data-theme] .eyebrow,
+html[data-theme] .city-dates,
+html[data-theme] .travel-rules li::before {
+  color: var(--active);
+}
+
+html[data-theme] .brand-mark,
+html[data-theme] .foliage {
+  background: var(--active);
+}
+
+html[data-theme] .route-notes {
+  border-top-color: var(--active);
+}
+
+.ticket-note {
+  grid-column: 2;
+  margin: 0;
+  border-left: 5px solid var(--active);
+  padding: 0.8rem 1rem;
+  color: var(--muted);
+  background: var(--white);
 }
 
 .city-nav {
@@ -755,6 +859,14 @@ footer p {
 }
 
 @media (max-width: 900px) {
+  .plan-tabs {
+    width: calc(100% - 1.6rem);
+  }
+
+  .ticket-note {
+    grid-column: 1;
+  }
+
   .trip-hero h1 {
     font-size: 4.3rem;
   }
@@ -845,6 +957,25 @@ footer p {
   .city-nav {
     top: 0;
     grid-template-columns: repeat(6, 8.6rem);
+  }
+
+  .plan-tabs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .plan-tabs button {
+    min-height: 6.4rem;
+    padding: 0.6rem 0.45rem;
+  }
+
+  .plan-tabs button strong {
+    font-size: 1.08rem;
+  }
+
+  .plan-tabs button span,
+  .plan-tabs button small {
+    font-size: 0.58rem;
+    line-height: 1.35;
   }
 
   .route-overview,
@@ -966,6 +1097,7 @@ footer p {
   }
 
   .top-actions,
+  .plan-tabs,
   .city-nav,
   .itinerary-tools,
   .discussion,

@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="2026/10/30 到 2026/12/02，東京進、福岡出的 34 天日本楓葉家庭旅行逐日行程。">
+    <meta name="description" content="2026/10/30 到 2026/12/02，三套適合帶爸媽慢遊日本的 34 天逐日行程。">
     <meta name="theme-color" content="#c7332b">
-    <title>2026 日本楓葉家庭旅行</title>
+    <title>2026 日本家庭旅行三方案</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%23c7332b'/%3E%3Cpath d='M32 8l5 12 10-5-4 11 11 3-10 6 6 9-13-3-5 15-5-15-13 3 6-9-10-6 11-3-4-11 10 5z' fill='%23fffaf0'/%3E%3C/svg%3E">
     <link rel="stylesheet" href="styles.css">
   </head>
@@ -37,12 +37,12 @@
         <div class="hero-shade" aria-hidden="true"></div>
         <div class="hero-content">
           <p class="eyebrow light">2026/10/30 至 12/02</p>
-          <h1 id="hero-title">日本楓葉<br>家庭旅行</h1>
-          <p class="hero-lead">東京進、福岡出。34 天慢慢走，和爸媽一起追著秋色往西。</p>
+          <h1 id="hero-title" data-hero-title>楓葉平衡版</h1>
+          <p class="hero-lead" data-hero-lead>東京進、福岡出。兼顧紅葉、休息與移動，帶爸媽一路舒服往西。</p>
           <dl class="hero-facts" aria-label="行程摘要">
             <div><dt>旅程</dt><dd>34 天／33 晚</dd></div>
-            <div><dt>住宿</dt><dd>6 個定點</dd></div>
-            <div><dt>節奏</dt><dd>一天一區</dd></div>
+            <div><dt>住宿</dt><dd data-base-count>6 個定點</dd></div>
+            <div><dt>節奏</dt><dd data-rhythm>紅葉與休息平衡</dd></div>
           </dl>
         </div>
         <p class="photo-credit">
@@ -50,18 +50,27 @@
         </p>
       </section>
 
+      <nav class="plan-tabs" role="tablist" aria-label="選擇旅行方案">
+        <button id="tab-plan1" type="button" role="tab" data-plan="plan1" aria-controls="trip-panel" aria-selected="false" tabindex="-1">
+          <span>方案 1</span><strong>壯遊版</strong><small>北海道一路到九州</small>
+        </button>
+        <button id="tab-plan2" type="button" role="tab" data-plan="plan2" aria-controls="trip-panel" aria-selected="true" tabindex="0">
+          <span>方案 2</span><strong>平衡版</strong><small>楓葉、移動與休息</small>
+        </button>
+        <button id="tab-plan3" type="button" role="tab" data-plan="plan3" aria-controls="trip-panel" aria-selected="false" tabindex="-1">
+          <span>方案 3</span><strong>孝親版</strong><small>四間飯店只換三次</small>
+        </button>
+      </nav>
+
+      <div id="trip-panel" class="trip-panel" role="tabpanel" aria-labelledby="tab-plan2" tabindex="0">
       <nav class="city-nav" data-city-nav aria-label="住宿城市"></nav>
 
       <section class="route-overview" aria-labelledby="route-title">
         <div class="section-intro">
-          <p class="eyebrow">方案 2 已定案</p>
-          <h2 id="route-title">只換五次飯店，<br>一路往西不回頭。</h2>
+          <p class="eyebrow" data-plan-kicker>方案 2 已定案</p>
+          <h2 id="route-title" data-route-title>只換五次飯店，<br>一路往西不回頭。</h2>
         </div>
-        <div class="route-notes">
-          <p><strong>大行李：</strong>11/8 從金澤宅配到京都，高山三晚只帶小行李。</p>
-          <p><strong>賞楓主場：</strong>京都 11/13–22、宮島 11/25、福岡 11/29–30。</p>
-          <p><strong>留白原則：</strong>每兩至三天安排半日休息，紅葉日可依天氣互換。</p>
-        </div>
+        <div class="route-notes" data-route-notes></div>
       </section>
 
       <section class="itinerary" aria-labelledby="itinerary-title">
@@ -92,12 +101,8 @@
           <p class="eyebrow">爸媽版原則</p>
           <h2 id="rules-title">累了就刪，<br>不用補課。</h2>
         </div>
-        <ol>
-          <li><strong>移動日不塞景點。</strong>入住、吃飯、熟悉車站就夠了。</li>
-          <li><strong>熱門景點早點去。</strong>午后找地方坐，晚上不追行程。</li>
-          <li><strong>京都依楓況交換。</strong>11/13–22 的景點順序不是死的。</li>
-          <li><strong>計程車也是交通。</strong>三個人一起搭，常比多次轉車舒服。</li>
-        </ol>
+        <ol data-travel-rules></ol>
+        <p class="ticket-note"><strong>票券提醒：</strong><span data-ticket-note></span></p>
       </section>
 
       <section class="discussion" aria-labelledby="discussion-title">
@@ -142,6 +147,7 @@
         </div>
         <textarea data-summary rows="10" readonly aria-label="家庭討論摘要"></textarea>
       </section>
+      </div>
     </main>
 
     <footer>
